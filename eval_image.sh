@@ -1,0 +1,1 @@
+python3.8 /home/zlin/PIDNet/tools/eval.py --cfg_file_path /home/zlin/PIDNet/configs/Mavis/20230529_pidnet_l_linlin_2gpu.yaml 

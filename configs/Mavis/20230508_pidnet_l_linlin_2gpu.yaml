@@ -1,0 +1,68 @@
+# without augmentaion using modified weights for canopy
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+GPUS: (0, 1)
+OUTPUT_DIR: /home/zlin/PIDNet/output/  # for log and *.pt
+WORKERS: 64
+PRINT_FREQ: 100
+
+DATASET:
+  DATASET: 20230323_batches1_8_linlin # 20230318_batches1_7_cityscapes
+  ROOT: /home/zlin/PIDNet/mavis/20230323_batches1_8_linlin  # 20230318_batches1_7_cityscapes
+  TRAIN_SET: train.txt
+  VALID_SET: valid.txt
+  TEST_SET: valid_t.txt
+  NONQUALIFIED_SET: temp.txt
+  NUM_CLASSES: 9
+
+MODEL:
+  NAME: 20230508_pidnet_l_linlin_4gpu
+  SIZE: large
+  NUM_OUTPUTS: 2
+  PRETRAINED: /home/zlin/PIDNet/pretrained_models/cityscapes/PIDNet_L_Cityscapes_val.pt
+
+LOSS:
+  # NAME: focaltversky
+  USE_OHEM: True
+  OHEMTHRES: 0.9
+  BD_LABEL_THRES: 0.4
+  OHEMKEEP: 131072
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  SB_WEIGHTS: 1.0
+  USE_FocalTverskyLoss: False
+
+TRAIN:
+  IMAGE_SIZE: [1024, 1024]
+  CLASS_WEIGHTS: [0.0870, 0.0889, 0.0799, 0.0859, 0.1471, 0.2089, 0.0991, 0.0878, 0.1153] # add class weights on class 4 and 5
+  # [0.1028, 0.1050, 0.0944, 0.1015, 0.1159, 0.1234, 0.1170, 0.1037, 0.1362]
+  # [0.0758, 0.0789, 0.0694, 0.0750, 0.0873, 0.0934, 0.1781, 0.0770, 0.2651] # add class weight on class 5, 8
+  
+  BATCH_SIZE_PER_GPU: 4  # try more 
+  SHUFFLE: true
+  BEGIN_EPOCH: 0
+  END_EPOCH: 100
+  RESUME_CHECKPOINT_PATH: '/home/zlin/PIDNet/output/20230323_batches1_8_linlin/20230508_pidnet_l_linlin_4gpu/checkpoint.pth.tar'
+  OPTIMIZER: sgd
+  LR: 0.01
+  WD: 0.0005 # L2 regulization
+  MOMENTUM: 0.9
+  NESTEROV: false
+  IGNORE_LABEL: 0
+
+
+VALID:
+  # IMAGE_SIZE: [1920, 1080]
+  IMAGE_SIZE: [1024, 1024]
+  BATCH_SIZE_PER_GPU: 4
+  OUTPUT_INDEX: 1
+
+
+TEST:
+  # IMAGE_SIZE: [1920, 1080]
+  IMAGE_SIZE: [1024, 1024]
+  BATCH_SIZE_PER_GPU: 4
+  MODEL_FILE: '/home/zlin/PIDNet/output/20230323_batches1_8_linlin/20230508_pidnet_l_linlin_4gpu/best.pt'
+  OUTPUT_INDEX: 1

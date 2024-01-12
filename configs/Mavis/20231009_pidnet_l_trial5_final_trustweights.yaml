@@ -1,0 +1,69 @@
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+GPUS: (0, 1) #(0, 1)
+OUTPUT_DIR: /home/stan/PIDNet/output/  # for log and *.pt
+WORKERS: 64
+PRINT_FREQ: 100
+
+DATASET:
+  DATASET: 20230916_batches1_8_freiburg_linlin
+  ROOT: /home/stan/PIDNet/mavis/20230916_batches1_8_freiburg_linlin
+  # /home/stan/PIDNet/mavis/the_ultimate_test_images # /home/stan/PIDNet/mavis/20230323_batches1_8_linlin  # 20230318_batches1_7_cityscapes
+  TRAIN_FREIBURG_SET: train_freiburg.txt
+  TRAIN_SET: train_mavis.txt
+  VALID_SET: valid.txt
+  TEST_SET: valid_t.txt
+  NONQUALIFIED_SET: temp.txt
+  NUM_CLASSES: 10 #9 #11
+
+MODEL:
+  NAME: 20231009_pidnet_l_trial5_final_trustweights # add model structure, freiburg dataset and trust weights 
+  SIZE: large
+  NUM_OUTPUTS: 2
+  PRETRAINED: /home/stan/PIDNet/pretrained_models/cityscapes/PIDNet_L_Cityscapes_val.pt
+
+LOSS:
+  # NAME: focaltversky
+  USE_OHEM: True
+  OHEMTHRES: 0.9
+  BD_LABEL_THRES: 0.4
+  OHEMKEEP: 131072
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  SB_WEIGHTS: 1.0
+  USE_FocalTverskyLoss: False
+  ALFA: 0.15
+
+TRAIN:
+  IMAGE_SIZE: [1024, 1024]
+  CLASS_WEIGHTS: [] #[0.0961, 0.0798, 0.0500, 0.1235, 0.1615, 0.1600, 0.0670, 0.0969, 0.0582, 0.0532] #, 0.0539] 
+  # [0.0964, 0.0673, 0.0498, 0.1239, 0.1512, 0.1605, 0.0666, 0.0973, 0.0579, 0.0640, 0.0649]
+  BATCH_SIZE_PER_GPU: 8 #16 #8 # try more 
+  SHUFFLE: true
+  BEGIN_EPOCH: 0
+  END_EPOCH: 100 #500 #200 #100 #40
+  RESUME_CHECKPOINT_PATH: '' # '/home/stan/PIDNet/output/20230916_batches1_8_freiburg_linlin/20231009_pidnet_l_trial5_final_trustweights/checkpoint.pth.tar' 
+  OPTIMIZER: sgd
+  LR: 0.015
+  WD: 0.0002 # L2 regulization
+  MOMENTUM: 0.9 
+  NESTEROV: false
+  IGNORE_LABEL: 0
+  TRUST_WEIGHTS: [0.4, 0.6] # wsed on weightedrandomsampler (Mavis Dataset : Freiburg Dataset)
+
+
+VALID:
+  # IMAGE_SIZE: [1920, 1080]
+  IMAGE_SIZE: [1024, 1024]
+  BATCH_SIZE_PER_GPU: 8
+  OUTPUT_INDEX: 1
+
+
+TEST:
+  # IMAGE_SIZE: [1920, 1080]
+  IMAGE_SIZE: [1024, 1024]
+  BATCH_SIZE_PER_GPU: 4
+  MODEL_FILE: '/home/stan/PIDNet/output/20230916_batches1_8_freiburg_linlin/20231009_pidnet_l_trial5_final_trustweights/best.pt' 
+  OUTPUT_INDEX: 1

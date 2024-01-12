@@ -1,0 +1,1 @@
+python3 /home/linlin/workspace/08_PIDNet_Training/data_preprocess/create_list.py

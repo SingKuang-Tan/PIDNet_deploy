@@ -1,0 +1,68 @@
+# without augmentaion using modified weights for canopy
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+GPUS: (0, 1)
+OUTPUT_DIR: /home/zlin/PIDNet/output/  # for log and *.pt
+WORKERS: 64
+PRINT_FREQ: 100
+
+DATASET:
+  DATASET: 20230323_batches1_8_linlin # 20230318_batches1_7_cityscapes
+  ROOT: /home/zlin/PIDNet/mavis/the_ultimate_test_images # /home/zlin/PIDNet/mavis/20230323_batches1_8_linlin  # 20230318_batches1_7_cityscapes
+  TRAIN_SET: train.txt
+  VALID_SET: valid.txt
+  TEST_SET: valid_t.txt
+  NONQUALIFIED_SET: temp.txt
+  NUM_CLASSES: 11
+
+MODEL:
+  NAME: 20230529_pidnet_l_linlin_4gpu
+  SIZE: large
+  NUM_OUTPUTS: 2
+  PRETRAINED: /home/zlin/PIDNet/pretrained_models/cityscapes/PIDNet_L_Cityscapes_val.pt
+
+LOSS:
+  # NAME: focaltversky
+  USE_OHEM: True
+  OHEMTHRES: 0.9
+  BD_LABEL_THRES: 0.4
+  OHEMKEEP: 131072
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  SB_WEIGHTS: 1.0
+  USE_FocalTverskyLoss: False
+
+TRAIN:
+  IMAGE_SIZE: [1024, 1024]
+  CLASS_WEIGHTS: [0.0654, 0.1367, 0.0601, 0.0646, 0.0738, 0.0786, 0.0745, 0.0660, 0.0867, 0.1456, 0.1479] # obstacle, human, vehicle
+  # [0.0567, 0.1184, 0.0520, 0.0560, 0.1278, 0.1701, 0.0645, 0.0572, 0.0751, 0.1261, 0.0961] #  vine, obstacle and vehicle
+  # [0.0602, 0.0629, 0.0553, 0.0595, 0.1358, 0.1808, 0.0686, 0.0608, 0.0798, 0.1340, 0.1021] # vine, human and vehicle
+  # [0.0670, 0.0699, 0.0615, 0.0662, 0.1511, 0.2011, 0.0763, 0.0676, 0.0888, 0.0747, 0.0757]
+  BATCH_SIZE_PER_GPU: 8  # try more 
+  SHUFFLE: true
+  BEGIN_EPOCH: 0
+  END_EPOCH: 150
+  RESUME_CHECKPOINT_PATH: '/home/zlin/PIDNet/output/20230323_batches1_8_linlin/20230529_pidnet_l_linlin_4gpu/checkpoint.pth.tar'
+  OPTIMIZER: sgd
+  LR: 0.01
+  WD: 0.0005 # L2 regulization
+  MOMENTUM: 0.9 
+  NESTEROV: false
+  IGNORE_LABEL: 0
+
+
+VALID:
+  # IMAGE_SIZE: [1920, 1080]
+  IMAGE_SIZE: [1024, 1024]
+  BATCH_SIZE_PER_GPU: 8
+  OUTPUT_INDEX: 1
+
+
+TEST:
+  # IMAGE_SIZE: [1920, 1080]
+  IMAGE_SIZE: [1024, 1024]
+  BATCH_SIZE_PER_GPU: 4
+  MODEL_FILE: '/home/zlin/PIDNet/output/20230323_batches1_8_linlin/20230529_pidnet_l_linlin_4gpu/best.pt' # best.pt
+  OUTPUT_INDEX: 1

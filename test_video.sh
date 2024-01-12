@@ -1,0 +1,1 @@
+python3.8 /home/zlin/PIDNet/tools/test_video.py --input /home/zlin/PIDNet/test_videos/front-2023-10-09-22-05-00_converted.mp4 --cfg_file_path /home/zlin/PIDNet/configs/Mavis/20231009_pidnet_l_trial5_final_trustweights.yaml

@@ -1,0 +1,34 @@
+*_env
+**/*.tar
+**/__pycache__
+
+# archive
+archive
+
+# ignore model weights
+**/events*
+**/*.pt 
+**/*.tar 
+**/*.log 
+
+# ignore notes 
+**/temp*
+**/*_notes
+
+# ignore trainin result 
+**/output/*
+**/output_debug/*
+**/pretrained_models/*
+
+# ignore videos 
+**/*.mp4
+**/*.mkv
+
+# ignore nohup
+nohup.out 
+
+# gramcam 
+debug/gramcam/**/*.png
+
+# bag
+**/*.bag

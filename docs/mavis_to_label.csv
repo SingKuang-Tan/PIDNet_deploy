@@ -1,0 +1,32 @@
+id	id_no_instance	id_name	r	g	b	"label for training "	"label_name for training "
+0	0	void	0	0	0	0	void
+1	1	vehicle	223	61	62	1	obstacle
+2	2	obstacle	228	4	246	1	obstacle
+3	3	road	92	3	16	2	navigable_space
+4	4	navigable_space	48	94	173	2	navigable_space
+5	5	vine_canopy	117	171	68	3	vine_canopy
+6	6	lane	9	127	31	2	navigable_space
+7	7	vine_stem	174	122	162	4	vine_stem
+8	8	grass	78	52	15	2	navigable_space
+9	9	vine_pole	148	119	121	5	vine_pole
+10	10	person	19	12	5	1	obstacle
+11	11	tree	15	218	141	1	obstacle
+12	12	vegetation	40	75	253	6	vegetation
+13	13	floor	147	193	112	2	navigable_space
+14	14	traffic_symbol	170	60	100	1	obstacle
+15	15	animal	60	170	100	1	obstacle
+16	16	tractor_hud	100	60	170	7	tractor_hud
+17	17	implement	179	100	60	1	obstacle
+18	18	vine_branch	60	100	170	4	vine_stem
+19	19	sky	9	31	127	8	sky
+64	1	vehicle_min	223	61	62	1	obstacle
+100	1	vehicle_min	223	61	62	1	obstacle
+101	1	person_min	19	12	5	1	obstacle
+180	1	person_max	19	12	5	1	obstacle
+
+# 101 to 180 are person, and 64 to 100 vehicle
+
+
+
+
+
